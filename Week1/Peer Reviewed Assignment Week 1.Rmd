@@ -1,0 +1,163 @@
+---
+title: "A look into the Age and Expenditures during the Holidays"
+author: "Sanjaya J Shetty"
+date: "28/05/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+## Answers
+
+**a**. Use all data to estimate the coefficients a and b in a simple regression model, where expenditures is the
+dependent variable and age is the explanatory factor. Also compute the standard error and the t-value of b.
+
+**Answer**: 
+
+Table 1     | Estimate Std. | Error      | t-value 
+:-------    | :-----------  | :-----     | :-------
+(Intercept) | 114.24111     | 3.88208    | 29.428   
+Age         | -0.33360      | 0.09537    | -3.498  
+
+&nbsp;
+
+**b**. Make the scatter diagram of expenditures against age and add the regression line y = a + bx of part (a) in
+this diagram. What conclusion do you draw from this diagram?
+
+**Answer**: 
+
+![](/home/sanjaya/Pictures/plot4.png)
+
+&nbsp;
+
+**c**. It seems there are two sets of observations in the scatter diagram, one for clients aged 40 or higher and
+another for clients aged below 40. Divide the sample into these two clusters, and for each cluster estimate the
+coefficients a and b and determine the standard error and t-value of b.
+
+**Answer**:
+
+**For People Below 40:**
+
+ Table 2   | Estimate Std. | Error    |t-value
+:----------|:--------------|:-------  |:------
+(Intercept)| 100.23228     |1.41590   | 70.79 
+Age        | 0.19797       |0.04438   | 4.46 
+
+&nbsp;
+
+**For People Above 40:**
+
+ Table 2   | Estimate Std. | Error    |t-value
+:----------|:--------------|:-------  |:------
+(Intercept)| 88.8719       | 9.4585   | 9.396
+Age        | 0.1465        | 0.1974   |0.742
+
+
+**d**.  Discuss and explain the main differences between the outcomes in parts (a) and (c). Describe in words what
+you have learned from these results.
+
+**Answer**: The main difference between the outcome in part (a) and (c) is that the slope of the diagram. The plot seen in the part(a) (*i.e plot 4*) would show an inaccurate estimation of expenditure of people near the age 40. Whereas the plot seen the part (c) (*i.e plot 5 and plot 6*) would be an more accurate fit. 
+
+
+&nbsp;
+&nbsp;
+&nbsp;
+
+
+## Method:
+
+### Load the library
+
+```{r setup, include=TRUE}
+library(plyr)
+library(readxl)
+```
+
+### Load the Dataset
+
+```{r}
+data <- read_xls(paste0(getwd(),"/data/TestExer1-holiday expenditures-round2.xls"))
+```
+
+
+```{r}
+
+par(mfrow = c(1,2))
+hist(data$Age, main = 'Plot 1: Distribution of the Age', col = 'cadetblue',
+     xlab = 'Age')
+hist(data$Expenditures, main = 'Plot 2: Distribution of Expenditures', col = 'aquamarine4',
+     xlab = 'Expenditures')
+```
+
+```{r}
+plot(x = data$Age, y = data$Expenditures, main = 'Plot 3: Expenditure of people across different age group',
+     xlab = 'Age', ylab = 'Expenditure', col = 'darkgoldenrod1', pch = 19)
+```
+
+*Since the above plot shows the clear clustering of data around two corner, hence drawing a single regression line for prediction would be unwise(see plot 4 below). So, In order to produce the meaningful regression line, we could cut off the dataset at Age 40 and would fit a regression model separately.*
+
+
+```{r}
+
+model <- lm(Expenditures~Age, data)
+
+summary(model)
+
+```
+
+
+```{r, echo=FALSE}
+plot(data$Age,data$Expenditures, main = 'Plot 4: Fitting a regression Line to the Data',xlab = 'Age', 
+     ylab ='Expenditures',
+     pch = 19, col = 'darkgoldenrod1')
+abline(model, col = 'darkgoldenrod4')
+```
+
+
+### Creating two separate the dataset.
+
+```{r}
+
+dataA40 <- data[data$Age >= 40,] # Above 40
+
+dataB40 <- data[data$Age < 40,] # Below 40
+
+```
+
+
+### Fitting linear regression to the dataset containging people above 40 years old.
+```{r}
+modelA40 <- lm(Expenditures~Age, dataA40)
+
+summary(modelA40)
+
+```
+
+
+```{r}
+plot(dataA40$Age, dataA40$Expenditures, xlab = 'Age', ylab = 'Expenditures',
+     main = 'Plot 5: Expenditure of people aged 40 & above 40', pch = 19, col = 'firebrick1')
+abline(modelA40, col = 'red')
+```
+
+### Fitting linear regression to dataset containing people below 40. 
+```{r}
+modelB40 <- lm(Expenditures~Age, dataB40)
+
+summary(modelB40)
+```
+
+
+```{r}
+plot(dataB40$Age, dataB40$Expenditures, xlab = 'Age', ylab = 'Expenditure', 
+     main = 'Plot 6: Expenditure of people aged below 40', pch = 19, col = 'darkorange')
+abline(modelB40, col = 'orange')
+```
+
+
+
+
+
+
+

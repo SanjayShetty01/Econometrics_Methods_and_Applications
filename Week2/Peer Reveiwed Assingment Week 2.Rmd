@@ -1,0 +1,220 @@
+---
+title: "Predicting Freshman grade using entrance exam scores"
+author: "Sanjaya J Shetty"
+date: "29/05/2021"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+
+#### Question and Answers
+
+
+* **a** 
+&nbsp;
+  + **(i)** Regress FGPA on a constant and SATV. Report the coefficient of SATV and its standard error and p-value
+(give your answers with 3 decimals).
+&nbsp;
++ **Answers:** 
+
+Table 1     |Estimate | std error | p-value
+:-----------|:--------|:----------|:-----------
+(Intercept) | 2.44173 |   0.15506 | <2e-16
+SATV        | 0.06309 |   0.02766 | 0.0229  
+
+
+&nbsp;
+  
+  +  **(ii)** Determine a 95% confidence interval (with 3 decimals) for the effect on FGPA of an increase by 1 point
+in SATV.
+
+&nbsp;
+
+
++ **Answers:** 
+
+Confidence Interval (95%) = intercept +/- (2*(SE))
+
+Lower Limit = 0.0630 - 2*0.02766 = 0.0076
+
+Upper Limit = 0.0630 + 2*0.02766 = 0.1183
+
+
+
+
+
+&nbsp;
+&nbsp;
+
+
+* **(b)** Answer questions (a-i) and (a-ii) also for the regression of FGPA on a constant, SATV, SATM, and FEM.
+
+&nbsp;
+
++ **Answers:**
+
+Table 2     |Estimate   | std error | p-value
+:-----------|:----------|:----------|:-----------
+(Intercept) |  1.55705  |  0.21610  |1.73e-12 
+SATV        |  0.01416  |  0.02793  |0.612       
+SATM        |  0.17274  |  0.03193  |9.07e-08
+FEM         |  0.20027  |  0.03738  |1.20e-07 
+
+
+Confidence Interval (95%) = intercept +/- (2*(SE))
+
+Lower Limit = 0.01416 - 2*0.02766 = -0.04116
+
+Upper Limit = 0.01416 + 2*0.02766 = 0.06948
+
+
+&nbsp;
+&nbsp;
+
+ * **(c)** Determine the (4 × 4) correlation matrix of FGPA, SATV, SATM, and FEM. Use these correlations to explain
+the differences between the outcomes in parts (a) and (b).
+
+&nbsp;
+
++ **Answers:**
+
+![](/home/sanjaya/Downloads/Plot2.png)
+ 
+ 
+when u check the p value in table 2, we could see for SATV the p-value will be 0.612, hence it is statistically insignificant. 
+
+
+&nbsp;
+&nbsp;
+
+
+* **(d)** 
+
+&nbsp;
+
+  + **(i)** Perform an F-test on the significance (at the 5% level) of the effect of SATV on FGPA, based on the
+regression in part (b) and another regression.
+
+&nbsp;
+
++ **Answers:**
+
+
+
+F statistic = 0.2572
+
+(*Check Anova Table*)
+
+or can it can also be found using R^2^ values from the model2 and model3
+
+
+
+&nbsp;
+
+  + **(ii)** Check numerically that F = t^2^.
+
+&nbsp;
+
++ **Answers:**
+
+t value from the model2 is 0.507
+
+hence t^2^ = (0.507)^2^ = 0.257 = F
+
+
+&nbsp;
+&nbsp;
+
+#### Method
+
+### Load the library
+```{r, message=FALSE}
+library(readxl)
+```
+
+### Load the Data
+```{r}
+
+setwd("~/Personal not your shit/H./Online Classes/R programming/Econometrics/Week2")
+
+data <- read_xls(paste0(getwd(), '/data/TestExer2-GPA-round2.xls'))
+
+```
+
+### Fitting a linear line
+
+```{r}
+model1 <- lm(FGPA~SATV, data)
+summary(model1)
+```
+
+Confidence Interval (95%) = intercept +/- (2*(SE))
+
+Lower Limit = 0.0630 - 2*0.02766 = 0.0076
+
+Upper Limit = 0.0630 + 2*0.02766 = 0.1183
+
+
+
+
+```{r}
+model2 <- lm(FGPA~SATV+SATM+FEM, data)
+
+summary(model2)
+```
+
+Confidence Interval (95%) = intercept +/- (2*(SE))
+
+Lower Limit = 0.01416 - 2*0.02766 = -0.04116
+
+Upper Limit = 0.01416 + 2*0.02766 = 0.06948
+
+
+
+
+```{r}
+dataCorr <- subset(data, select = c("FGPA","SATM","SATV","FEM"))
+
+cor <-cor(dataCorr)
+
+cor
+```
+
+```{r, message=FALSE, fig.width=5, fig.height=5}
+library(corrplot)
+
+corrplot.mixed(cor, lower.col = 'black')
+
+```
+
+
+```{r}
+model3 <- lm(FGPA~SATM+FEM, data)
+
+summary(model3)
+```
+
+
+```{r}
+ssr <- sum((model3$residuals)^2)
+ssr
+```
+
+```{r}
+
+ssr <-  sum((model2$residuals)^2)
+
+ssr
+```
+
+
+```{r}
+anova(model2, model3)
+```
+
+
+
+
+

@@ -1,0 +1,358 @@
+---
+title: "Look into Monthly Production of Toyota Passenger cars"
+author: "Sanjaya J Shetty"
+date: "01/06/2021"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+## Questions
+
+<br>
+
+* **(a).** Make time series plots of the variables yt and xt, and also of the share of Toyota in all produced passenger cars, that is yt/(yt + xt). What conclusions do you draw from these plots?
+
+**Answers:** 
+
+![](/home/sanjaya/Downloads/Total_sales_plot.png)
+
+There is no defining trend in the above plot
+
+<br>
+
+![](/home/sanjaya/Downloads/Total_sales_plot2.png)
+
+The is no great flucation in the numbers
+
+
+<br>
+
+
+* **(b)**  
+
+  + **(i)** Perform the Augmented Dickey-Fuller (ADF) test for yt. In the ADF test equation, include a constant (α) and three lags of ∆yt, as well as the variable of interest, yt−1. Report the coefficient of yt−1 and its standard error and t-value, and draw your conclusion.
+
+**Answers:**
+
+Table 1    |    Estimate   | Std. Error   | t value
+:--------- |:------------- |:-------------|:----------
+LagTOYOTA  |      0.07478  |     0.03673  |  2.036 
+
+
+  + **(ii)** Perform a similar ADF test for xt.
+
+**Answer:**
+
+Table 2         |   Estimate   |Std. Error   | t value
+:---------------|:-------------|:------------|:---------
+LagOthers       |     0.05290  |     0.03356 |   1.576           
+
+
+<br>
+
+
+* **(c).** Perform the two-step Engle-Granger test for cointegration of the time series yt and xt. In step 1, regress yt on a constant and xt. In step 2, perform a regression of the residuals et in the model ∆et = α + ρet−1 + β1∆et−1 + β2∆et−2 + β3∆et−3 + ωt. What is your conclusion?
+
+**Answers:**
+
+step 1:
+
+yt = 28428.168 + 0.4501 xt
+
+step 2:
+
+dE = 191.27+0.28956*dE~t~ + 0.586 dE~t-1~ + 0.14 dE~t-2~ + 0.096 dE ~t-3~
+
+using Engle-Granger for cointegration test we get
+
+Engle-Granger Cointegration Test 
+alternative: cointegrated 
+
+lag   |   EG   |  p.value 
+:-----|:-------|:---------
+3.00  | -4.73  | 0.01 
+
+Hence we could conclude that both variable are cointegrated.
+
+<br>
+
+* **(d).** Construct the first twelve sample autocorrelations and sample partial autocorrelations of ∆yt and use the outcomes to motivate an AR(12) model for ∆yt. Check that only the lagged terms at lags 1 to 5, 10, and 12 are significant, and estimate the following model: ∆yt =  + P5 j=1 βj∆yt−j + β6∆yt−10 + β7∆yt−12 + εt (recall that the estimation sample is Jan 1980 - Dec 1999).
+
+
+
+Table3     |   Estimate | Std. Error | t value  |  Pr(>|t|)  
+:----------|:-----------|:-----------|:---------|:------------------
+(Intercept)| 518.49151  |897.80065   |0.578     |        0.564165    
+LagDelta_1 |   -0.61038 |   0.06391  |-9.550    |< 0.0000000000000002 ***
+LagDelta_2 |   -0.30488 |   0.07550  |-4.038    |        0.0000737 ***
+LagDelta_3 |   -0.24722 |   0.07634  |-3.238    |         0.001383 ** 
+LagDelta_4 |   -0.23912 |   0.07793  |-3.069    |         0.002412 ** 
+LagDelta_5 |   -0.18718 |   0.07952  |-2.354    |         0.019426 *  
+LagDelta_6 |   -0.10445 |   0.08001  |-1.305    |         0.193076    
+LagDelta_7 |   -0.13765 |   0.08012  |-1.718    |         0.087161 .  
+LagDelta_8 |    0.04058 |   0.07999  |0.507     |        0.612411    
+LagDelta_9 |    0.02838 |   0.07869  |  0.361   |          0.718745    
+LagDelta_10|  -0.26206  |  0.07675   |-3.415    |         0.000756 ***
+LagDelta_11|  -0.03910  |  0.07596   |-0.515    |         0.607243    
+LagDelta_12|   0.23236  |  0.06400   |3.631     |        0.000349 ***
+
+<br>
+
+* **(e).** Extend the model of part (d) by adding the Error Correcion (EC) term (yt −0.45xt), that is, estimate the ECM ∆yt = α + γ(yt−1 − 0.45xt−1) + P5 j=1 βj∆yt−j + β6∆yt−10 + β7∆yt−12 + εt (estimation sample is Jan 1980- Dec 1999). Check that the EC term is significant at the 5% level, but not at the 1% level.
+
+Table 4         |    Estimate     |Std. Error | t value        |     Pr(>|t|)    
+:---------------|:----------------|:----------|:---------------|:------                   
+(Intercept)     |    -3039.85443  |1922.07272 | -1.582         |     0.11512    
+LagDelta_1      |       -0.54566  |   0.06449 | -8.462         |     0.00000000000000305
+LagDelta_2      |       -0.24207  |   0.07489 | -3.232         |     0.00141 
+LagDelta_3      |       -0.19619  |   0.07321 | -2.680         |     0.00789 
+LagDelta_4      |       -0.18636  |   0.06931 | -2.689         |     0.00769
+LagDelta_5      |       -0.09950  |   0.05918 | -1.681         |     0.09406   
+LagDelta_10     |       -0.26582  |   0.05002 | -5.314         |     0.00000025230739777
+LagDelta_12     |        0.25515  |   0.05278 |  4.834         |     0.00000244194347778
+ErrorCorrection |     0.12523     |0.06136    |  2.041         |     0.04239 
+
+
+
+<br>
+
+* **(f).** Use the models of parts (d) and (e) to make two series of 12 forecasts of monthly changes in production of Toyota passenger cars in 2000. At each month, you should use the data that are then available, for example, to forecast production for September 2000 you can use the data up to and including August 2000. However, do not re-estimate the model and use the coefficients as obtained in parts (d) and (e). For each of the two forecast series, compute the values of the root mean squared error (RMSE) and of the mean absolute error (MAE). Finally, give your interpretation of the outcomes.
+
+Table 5 | AR(12)     | ECM
+:-------|:-----------|:----- 
+RMSE    | 14443.15   | 27657.25
+MAE     | 11351.77   | 21305.06
+
+hence, Not Ideal to predict the sale of TOYOTA
+
+
+<br>
+<br>
+
+## Methods
+
+### Load the required Library
+
+```{r, warning=FALSE}
+library(readxl)
+library(ggplot2)
+options(scipen=999)
+options(warn = -1)
+```
+
+
+### Load the Data
+```{r}
+data <- read_xlsx('TestExer6-CARS-round2.xlsx')
+
+head(data)
+```
+
+
+```{r}
+ggplot(data, aes(x = `YYYY-MM`))+
+  geom_line(aes( y = OTHER_SA, group = 1, color = "Other Cars"))+
+  geom_line(aes(y = TOYOTA_SA, group = 1, color = "Toyota"))+
+  labs(y = "Total Sales", x = "Time Period from 1980-2000", title = "Total Sales of Cars from 1980-2000",
+       color = "Car Brands")+
+  scale_color_manual(values = c(
+    "Other Cars" = "deepskyblue1",
+    "Toyota" = "firebrick"))+
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = 'bold'))+
+  scale_y_continuous(labels = scales::comma)
+
+```
+
+
+```{r}
+dataCarShare <- subset(data, select  =c('YYYY-MM', 'TOYOTA_SA', "OTHER_SA"))
+
+head(dataCarShare)
+```
+
+```{r}
+dataCarShare$ShareTOYOTA <- dataCarShare$TOYOTA_SA/(data$TOYOTA_SA + data$OTHER_SA)*100
+
+head(dataCarShare)
+```
+
+
+```{r}
+ggplot(dataCarShare, aes(`YYYY-MM`,ShareTOYOTA, group = 1))+
+  geom_line(col = 'chartreuse1')+
+  labs(y= 'Share of Toyota Cars', x=  'Time Period from 1980-2000', title = 'Percentage of Toyota Car Sales' )+
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = 'bold'))
+
+```
+
+
+```{r, message=FALSE}
+library(tseries)
+
+tseries::adf.test(data$TOYOTA_SA, k = 3)
+```
+
+```{r}
+tseries::adf.test(data$OTHER_SA, k = 3)
+```
+
+```{r, message=FALSE}
+library(aTSA)
+
+coint.test( data$TOYOTA_SA,data$OTHER_SA, nlag = 3)
+
+```
+
+```{r}
+for (i in 2:nrow(data)){
+  data$DeltaTOYOTA[1] <- 0
+  data$DeltaTOYOTA[i] <- data$TOYOTA_SA[i] - data$TOYOTA_SA[i-1]
+}
+
+```
+
+
+```{r}
+data$LagDelta_1 <- dplyr::lead(data$DeltaTOYOTA, n  = 1)
+data$LagDelta_2 <- dplyr::lead(data$DeltaTOYOTA, n = 2)
+data$LagDelta_3 <- dplyr::lead(data$DeltaTOYOTA, n = 3)
+
+data$LagTOYOTA <- dplyr::lead(data$TOYOTA_SA, n = 1)
+```
+
+```{r}
+model1 <- lm(DeltaTOYOTA~LagDelta_1+LagDelta_2+LagDelta_3+LagTOYOTA, data)
+
+summary(model1)
+```
+
+```{r}
+
+for (i in 2:nrow(data)){
+  data$DeltaOthers[1] <- 0
+  data$DeltaOthers[i] <- data$OTHER_SA[i] - data$OTHER_SA[i-1]
+}
+
+```
+
+```{r}
+data$LagOtherDelta_1 <- dplyr::lead(data$DeltaOthers, n  = 1)
+data$LagOtherDelta_2 <- dplyr::lead(data$DeltaOthers, n = 2)
+data$LagOtherDelta_3 <- dplyr::lead(data$DeltaOthers, n = 3)
+
+data$LagOthers <- dplyr::lead(data$OTHER_SA, n = 1)
+```
+
+
+```{r}
+model2 <- lm(DeltaOthers~LagOtherDelta_1+LagOtherDelta_2+LagOtherDelta_3+LagOthers, data) 
+
+summary(model2)
+```
+
+```{r}
+model3 <- lm(data$TOYOTA_SA~data$OTHER_SA)
+
+summary(model3)
+```
+
+
+```{r}
+data$Errors <- model3$residuals
+
+
+for (i in 2:nrow(data)){
+  data$DeltaErrors[1] <- 0
+  data$DeltaErrors[i] <- data$Errors[i] - data$Errors[i-1]
+}
+
+```
+
+```{r}
+data$LagDeltaErrors_1 <- dplyr::lead(data$DeltaErrors, n  = 1)
+data$LagDeltaErrors_2 <- dplyr::lead(data$DeltaErrors, n = 2)
+data$LagDeltaErrors_3 <- dplyr::lead(data$DeltaErrors, n = 3)
+
+data$LagErrors <- dplyr::lead(data$Errors, n = 1)
+
+```
+
+
+```{r}
+model4 <- lm(DeltaErrors~LagDeltaErrors_1+LagDeltaErrors_2+LagDeltaErrors_3+LagErrors,data)
+
+summary(model4)
+```
+
+
+
+```{r}
+data$LagDelta_4 <- dplyr::lead(data$DeltaTOYOTA, n  = 4)
+data$LagDelta_5 <- dplyr::lead(data$DeltaTOYOTA, n  = 5)
+data$LagDelta_6 <- dplyr::lead(data$DeltaTOYOTA, n  = 6)
+data$LagDelta_7 <- dplyr::lead(data$DeltaTOYOTA, n  = 7)
+data$LagDelta_8 <- dplyr::lead(data$DeltaTOYOTA, n  = 8)
+data$LagDelta_9 <- dplyr::lead(data$DeltaTOYOTA, n  = 9)
+data$LagDelta_10 <- dplyr::lead(data$DeltaTOYOTA, n  = 10)
+data$LagDelta_11 <- dplyr::lead(data$DeltaTOYOTA, n  = 11)
+data$LagDelta_12 <- dplyr::lead(data$DeltaTOYOTA, n  = 12)
+
+data$ErrorCorrection <- (data$TOYOTA_SA - (0.45*(data$OTHER_SA)))
+
+```
+
+```{r}
+model6 <- lm(DeltaTOYOTA~LagDelta_1+LagDelta_2+LagDelta_3+LagDelta_4+LagDelta_5+LagDelta_6+LagDelta_7+LagDelta_8+LagDelta_9+LagDelta_10+LagDelta_11+LagDelta_12, data)
+
+summary(model6)
+
+```
+
+```{r}
+model5 <- lm(DeltaTOYOTA~LagDelta_1+LagDelta_2+LagDelta_3+LagDelta_4+LagDelta_5+LagDelta_10+LagDelta_12+ErrorCorrection, data)
+
+summary(model5)
+
+
+```
+
+
+```{r}
+library(Metrics)
+
+rmse(data$DeltaTOYOTA, model5$fitted.values)
+
+rmse(data$DeltaOthers, model6$fitted.values)
+```
+
+```{r}
+mae(data$DeltaTOYOTA, model5$fitted.values)
+
+mae(data$DeltaOthers, model6$fitted.values)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
