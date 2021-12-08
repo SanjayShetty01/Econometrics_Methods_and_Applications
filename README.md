@@ -1,4 +1,6 @@
 # Econometrics: Methods and Applications
+##### by Erasmus University Rotterdam
+
 
 The main objective of the course was to teach learners how to translate data into models to make forecasts and to support decision making.
 
