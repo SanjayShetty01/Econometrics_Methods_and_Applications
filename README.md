@@ -1,4 +1,5 @@
 # Econometrics: Methods and Applications
+![image](https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/http://coursera-university-assets.s3.amazonaws.com/b0/c7eade44b34c0385386e23f124d70d/EUR.png?auto=format%2Ccompress&dpr=1&w=180&h=180)
 ##### by Erasmus University Rotterdam
 
 
